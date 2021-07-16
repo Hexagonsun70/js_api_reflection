@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             logoPaths[i].style.strokeDashoffset = logoPaths[i].getTotalLength();
             logoPaths[i].style.animation = `line-anim 2s ease forwards ${delay}s`;
             delay+=delayIncrement;
-            console.log(delay)
+            // console.log(delay)
         }
         logo.style.animation = `fill 0.5s ease forwards ${delay+1.5}s`;
     }

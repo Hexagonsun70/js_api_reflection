@@ -8,6 +8,13 @@
   )
 }
 
+body {
+  background-position: left;
+  background-size: 300%;
+  background-image: var(--gradient);
+  animation: bg-animation 20s infinite alternate;
+}
+
 #logo {
   display: none;
 }
@@ -28,4 +35,13 @@
     to {
         fill: white;
     }
+}
+
+@keyframes bg-animation{
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
 }

@@ -1,14 +1,5 @@
 @use '../abstracts' as *;
 
-:root {
-  --gradient: linear-gradient(
-  90deg,
-  #7DCE82,
-  #EE964B,
-  #BD4F6C
-  )
-}
-
 * {
   padding: 0;
   margin: 0;
@@ -18,27 +9,14 @@
 body {
   width:            100%;
   height:           100vh;
-  background-position: left;
   font-family: 'Work Sans', sans-serif;
-  background-image: var(--gradient);
-  background-size: 300%;
-  animation: bg-animation 15s infinite alternate;
-}
-
-@keyframes bg-animation{
-  0% {
-    background-position: left;
-  }
-  100% {
-    background-position: right;
-  }
 }
 
 .canvas {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
 
 .content {
@@ -51,7 +29,7 @@ body {
   padding: 20px;
   border-radius: 5px;
   background-color: $blue;
-  box-shadow: 2px 2px 8px 1px rgba(0, 0 , 0, 0.6);
+  box-shadow: 2px 2px 15px 2px rgba(0, 0 , 0, 0.6);
 
   &__header {
     display: flex;
@@ -91,6 +69,36 @@ body {
   }
   }
 }
+
+.profile {
+  display: flex;
+  justify-content: center;
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &--image-box {
+    height:100px;
+    width: 100px;
+    margin: 10px;
+  }
+  &--image {
+    border-radius: 50%;
+    height:100px;
+    width: 100px;
+    background-image: url(https://www.picsum.photos/300/200);
+    background-size: cover;
+  }
+
+}
+
+.profile--email {
+  font-size: 10px;
+  color: white; 
+}
+
 
 .btn {
   border: none;

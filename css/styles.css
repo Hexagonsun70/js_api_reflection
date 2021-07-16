@@ -7,6 +7,14 @@
   ) ;
 }
 
+body {
+  background-position: left;
+  background-size: 300%;
+  background-image: var(--gradient);
+  -webkit-animation: bg-animation 20s infinite alternate;
+          animation: bg-animation 20s infinite alternate;
+}
+
 #logo {
   display: none;
 }
@@ -42,15 +50,22 @@
     fill: white;
   }
 }
-:root {
-  --gradient: linear-gradient(
-  90deg,
-  #7DCE82,
-  #EE964B,
-  #BD4F6C
-  ) ;
+@-webkit-keyframes bg-animation {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
 }
-
+@keyframes bg-animation {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
 * {
   padding: 0;
   margin: 0;
@@ -61,35 +76,17 @@
 body {
   width: 100%;
   height: 100vh;
-  background-position: left;
   font-family: "Work Sans", sans-serif;
-  background-image: var(--gradient);
-  background-size: 300%;
-  -webkit-animation: bg-animation 15s infinite alternate;
-          animation: bg-animation 15s infinite alternate;
 }
 
-@-webkit-keyframes bg-animation {
-  0% {
-    background-position: left;
-  }
-  100% {
-    background-position: right;
-  }
-}
-
-@keyframes bg-animation {
-  0% {
-    background-position: left;
-  }
-  100% {
-    background-position: right;
-  }
-}
 .canvas {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -115,8 +112,8 @@ body {
   padding: 20px;
   border-radius: 5px;
   background-color: #298DAC;
-  -webkit-box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.6);
-          box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.6);
+          box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.6);
 }
 .content__header {
   display: -webkit-box;
@@ -158,6 +155,44 @@ body {
   margin-top: 20px;
 }
 .content__field-label {
+  color: white;
+}
+
+.profile {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.profile__box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.profile--image-box {
+  height: 100px;
+  width: 100px;
+  margin: 10px;
+}
+.profile--image {
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  background-image: url(https://www.picsum.photos/300/200);
+  background-size: cover;
+}
+
+.profile--email {
+  font-size: 10px;
   color: white;
 }
 
