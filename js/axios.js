@@ -62,9 +62,9 @@ document.getElementById('save-btn').onclick = function(){
         alert("Image is already stored under this email address")
       } //checks if a url is empty
       else if (users[emailIndex].url2 === "url2") {
-        users[emailCheckArr.indexOf(inputEmail)].url2 = IMG.src
+        users[emailIndex].url2 = IMG.src
       } else if (users[emailIndex].url3 === "url3") {
-        users[emailCheckArr.indexOf(inputEmail)].url3 = IMG.src
+        users[emailIndex].url3 = IMG.src
       } else {
         alert("Sorry, no more photos can be saved to this email address")
       }
@@ -72,18 +72,28 @@ document.getElementById('save-btn').onclick = function(){
 
     } else if(users[0].email === "email 0") {
       saveEmail(0);
+      document.getElementById("email-id-0").innerHTML = inputEmail;
+      document.getElementById("email-link-0").innerHTML = "<img src='"+ users[0].url1 +"' />";
 
     } else if(users[1].email === "email 1") {
       saveEmail(1)
+      document.getElementById("email-id-1").innerHTML = inputEmail;
+      document.getElementById("email-link-1").innerHTML = "<img src='"+ users[1].url1 +"' />";
 
     } else if(users[2].email === "email 2") {
       saveEmail(2)
+      document.getElementById("email-id-2").innerHTML = inputEmail;
+      document.getElementById("email-link-2").innerHTML = "<img src='"+ users[2].url1 +"' />";
 
     } else if(users[3].email === "email 3") {
       saveEmail(3)
+      document.getElementById("email-id-3").innerHTML = inputEmail;
+      document.getElementById("email-link-3").innerHTML = "<img src='"+ users[3].url1 +"' />";
 
     } else if(users[4].email === "email 4") {
       saveEmail(4)
+      document.getElementById("email-id-4").innerHTML = inputEmail;
+      document.getElementById("email-link-4").innerHTML = "<img src='"+ users[4].url1 +"' />";
 
     } else (
       alert("Sorry, only 5 profiles allowed per user, please use a previous email address")

@@ -79,26 +79,35 @@ body {
     flex-direction: column;
     align-items: center;
   }
+
+  &--email {
+    font-size: 10px;
+    color: white;
+    text-decoration: none;
+  }
+
+  &--link{
+
+    & img {
+      border-radius: 50%;
+      height:100px;
+      width: 100px;
+      background-size: cover;
+      margin: 20px;
+    }
+  }
+
   &--image-box {
     height:100px;
     width: 100px;
     margin: 10px;
   }
+
   &--image {
-    border-radius: 50%;
-    height:100px;
-    width: 100px;
-    background-image: url(https://www.picsum.photos/300/200);
-    background-size: cover;
+
   }
 
 }
-
-.profile--email {
-  font-size: 10px;
-  color: white; 
-}
-
 
 .btn {
   border: none;
