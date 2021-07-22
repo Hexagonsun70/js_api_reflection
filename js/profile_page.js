@@ -27,4 +27,4 @@ window.onload = function() {
   populateDoc(2);
   populateDoc(3);
   populateDoc(4);
-}
+};
