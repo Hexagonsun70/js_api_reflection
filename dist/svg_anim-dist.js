@@ -1,0 +1,2 @@
+document.addEventListener("DOMContentLoaded",(function(){!function(t,e,n){var a=document.getElementById(t),o=document.querySelectorAll("#".concat(t," path"));e=e;for(var s=0;s<o.length;s++)o[s].style.strokeDasharray=o[s].getTotalLength(),o[s].style.strokeDashoffset=o[s].getTotalLength(),o[s].style.animation="line-anim 2s ease forwards ".concat(e,"s"),e+=n;a.style.animation="fill 0.5s ease forwards ".concat(e+1.5,"s")}("logo-s",0,.2)}),!1);
+//# sourceMappingURL=svg_anim-dist.js.map

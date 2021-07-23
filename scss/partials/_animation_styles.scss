@@ -23,6 +23,10 @@ body {
   display: inline-block;
 }
 
+#logo-ie {
+  display: none;
+}
+
 @keyframes line-anim {
     to{
         stroke-dashoffset: 0;

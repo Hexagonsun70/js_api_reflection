@@ -1,0 +1,15 @@
+_:-ms-fullscreen, :root #logo-s {
+  display: none;
+}
+
+_:-ms-fullscreen, :root #logo-ie {
+  display: block;
+}
+
+_:-ms-fullscreen, :root body {
+  background-image: linear-gradient(
+  90deg,
+  #7DCE82,
+  #EE964B,
+  #BD4F6C)
+}

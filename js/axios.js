@@ -50,12 +50,14 @@ for (var i=0; i < 5; i++) {
     emailCheckArr.push(users[i].email);
 }
 
-const axiosImgGet = () => axios.get(URL)
+const axiosImgGet = function() {
+  axios.get(URL)
 .then((response) => {
-  picID = response.headers['picsum-id'];
-  picURL = `https://picsum.photos/id/${picID}/300/200`;
+  let picID = response.headers['picsum-id'];
+  let picURL = `https://picsum.photos/id/${picID}/300/200`;
   IMG.src = picURL;
-});
+})
+};
 
 //
 console.log(axiosImgGet());
