@@ -1,6 +1,7 @@
 const URL = 'https://picsum.photos/300/200';
 let IMG = document.getElementById('img');
 let inputVal = document.getElementById("email-input").value;
+
 // users created before usersRetrieved is assigned to users, so that
 // emailCheckArr is populated by the locally stored emails
 let users = [];
@@ -14,6 +15,7 @@ for (var i=0; i < 5; i++) {
         url3: "url" +3,
     };
 };
+
 const usersRetrieved = JSON.parse(localStorage.getItem("userStore"));
 Object.assign(users, usersRetrieved);
 
@@ -95,8 +97,10 @@ document.getElementById('save-btn').onclick = function(){
       // checks if the image already is stored in the target email address
       if (users[emailIndex].url1 === IMG.src || users[emailIndex].url2 === IMG.src  || users[emailIndex].url3 === IMG.src) {
         alert("Image is already stored under this email address")
-      } //checks if a url slot is empty. saves it to the next available slot and
-        //refreshes the local storage with the new information.
+      } /*
+          checks if a url slot is empty. saves it to the next available slot and
+          refreshes the local storage with the new information.
+        */
       else if (users[emailIndex].url2 === "url2") {
         users[emailIndex].url2 = IMG.src
         localStorage.setItem("userStore", JSON.stringify(users));
@@ -110,6 +114,7 @@ document.getElementById('save-btn').onclick = function(){
 
     } else if(users[0].email === "email 0") {
       saveEmail(0);
+      // innerHTML can be abused by malicious attack.
       document.getElementById("email-id-0").innerHTML = inputEmail;
       document.getElementById("email-link-0").innerHTML = "<img src='"+ users[0].url1 +"' />";
 
