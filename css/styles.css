@@ -249,53 +249,11 @@ body {
   color: white;
 }
 
-.user-0,
-.user-1,
-.user-2,
-.user-3,
-.user-4 {
+.user {
   width: 100%;
 }
-.user-0__email,
-.user-1__email,
-.user-2__email,
-.user-3__email,
-.user-4__email {
-  text-align: center;
-  color: white;
-  font-size: 600;
-  margin: 20px;
-}
-.user-0__email-all,
-.user-1__email-all,
-.user-2__email-all,
-.user-3__email-all,
-.user-4__email-all {
-  margin: 20px;
-  color: white;
-  text-align: center;
-}
-.user-0__email-all > a,
-.user-1__email-all > a,
-.user-2__email-all > a,
-.user-3__email-all > a,
-.user-4__email-all > a {
-  text-decoration: underline;
-  color: white;
-}
-.user-0__block-1, .user-0__block-2, .user-0__block-3,
-.user-1__block-1,
-.user-1__block-2,
-.user-1__block-3,
-.user-2__block-1,
-.user-2__block-2,
-.user-2__block-3,
-.user-3__block-1,
-.user-3__block-2,
-.user-3__block-3,
-.user-4__block-1,
-.user-4__block-2,
-.user-4__block-3 {
+
+.block {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -306,38 +264,30 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 30px;
 }
-.user-0__block-1-margin,
-.user-1__block-1-margin,
-.user-2__block-1-margin,
-.user-3__block-1-margin,
-.user-4__block-1-margin {
-  margin: 40px 20px;
+
+.email {
+  text-align: center;
+  color: white;
+  font-size: 600;
+  margin: 20px;
 }
-.user-0__block-2-margin, .user-0__block-3-margin,
-.user-1__block-2-margin,
-.user-1__block-3-margin,
-.user-2__block-2-margin,
-.user-2__block-3-margin,
-.user-3__block-2-margin,
-.user-3__block-3-margin,
-.user-4__block-2-margin,
-.user-4__block-3-margin {
-  margin: 20px 20px 40px 20px;
+
+.url {
+  color: white;
 }
-.user-0--url-1, .user-0--url-2, .user-0--url-3,
-.user-1--url-1,
-.user-1--url-2,
-.user-1--url-3,
-.user-2--url-1,
-.user-2--url-2,
-.user-2--url-3,
-.user-3--url-1,
-.user-3--url-2,
-.user-3--url-3,
-.user-4--url-1,
-.user-4--url-2,
-.user-4--url-3 {
+
+.blocks-end {
+  margin: 20px;
+  color: white;
+  text-align: center;
+}
+.blocks-end > a {
+  text-decoration: underline;
   color: white;
 }
 

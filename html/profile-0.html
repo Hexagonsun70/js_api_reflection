@@ -13,6 +13,7 @@
   <title>Photo Grabber</title>
 </head>
 <body>
+
   <main class="canvas">
     <div class="content">
       <div class="content__header">
@@ -31,6 +32,7 @@
         <path d="M305.57 1.24C307.994 1.24 309.938 1.864 311.402 3.112C312.866 4.36 313.598 6.052 313.598 8.18801C313.598 9.892 313.118 11.296 312.158 12.4C311.198 13.504 309.902 14.26 308.27 14.668L315.038 25H311.618L305.138 15.136H299.45V25H296.57V1.24H305.57ZM305.534 12.436C308.894 12.436 310.574 11.02 310.574 8.18801C310.574 5.356 308.894 3.94 305.534 3.94H299.45V12.436H305.534Z" stroke="white" stroke-width="0.5"/>
         </svg>
       </div>
+
       <div class="content__header-ie">
         <svg id="logo-ie" width="316" height="26" viewBox="0 0 316 26" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M9.276 1.24C10.884 1.24 12.276 1.54 13.452 2.14C14.652 2.71601 15.588 3.54401 16.26 4.624C16.932 5.704 17.268 6.98801 17.268 8.47601C17.268 9.96401 16.932 11.248 16.26 12.328C15.588 13.408 14.652 14.248 13.452 14.848C12.276 15.424 10.884 15.712 9.276 15.712H3.768V25H0.888V1.24H9.276ZM8.844 13.012C10.716 13.012 12.084 12.628 12.948 11.86C13.812 11.068 14.244 9.94001 14.244 8.47601C14.244 6.98801 13.812 5.86 12.948 5.092C12.084 4.324 10.716 3.94 8.844 3.94H3.768V13.012H8.844Z" stroke="white" stroke-width="0.5"/>
@@ -48,28 +50,7 @@
         </svg>
       </div>
 
-      <div class="user-4">
-        <div class="hp-link">
-          <a href="../index.html">
-            <i class="fas fa-arrow-left"></i>
-          </a>
-        </div>
-        <div class="user-4__email"></div>
-        <div class="user-4__block-1">
-          <a href="" class="user-4--img-1"></a>
-          <a class="user-4--url-1"></a>
-        </div>
-        <div class="user-4__block-2">
-          <a href="" class="user-4--img-2"></a>
-          <a class="user-4--url-2"></a>
-        </div>
-        <div class="user-4__block-3">
-          <a href="" class="user-4--img-3"></a>
-          <a class="user-4--url-3"></a>
-        </div>
-        <div class="user-4__email-all"></div>
-      </div>
-
+    </div>
   </main>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src='/js/jquery.3.6.0.min.js'></script>
@@ -78,7 +59,13 @@
 <script src='/js/profile_page.js'></script> -->
 
 <script src='/dist/svg_anim-dist.js'></script>
-<script src='/dist/profile_page-dist.js'></script>
+<script src='/js/profile_refactored.js'></script>
+
 
 </body>
 </html>
+
+<!--
+.user>.user__email+.user__block*3>a.user--img+p.user--url^.user__email-all
+-->
+<!-- <img src="https://picsum.photos/300/200" alt=""> -->
