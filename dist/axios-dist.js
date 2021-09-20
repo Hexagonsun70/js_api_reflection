@@ -1389,6 +1389,74 @@ var getBuiltIn = __webpack_require__(35);
 module.exports = getBuiltIn('document', 'documentElement');
 
 
+/***/ }),
+/* 65 */
+/***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(2);
+var fails = __webpack_require__(6);
+var isArray = __webpack_require__(52);
+var isObject = __webpack_require__(14);
+var toObject = __webpack_require__(16);
+var toLength = __webpack_require__(40);
+var createProperty = __webpack_require__(58);
+var arraySpeciesCreate = __webpack_require__(51);
+var arrayMethodHasSpeciesSupport = __webpack_require__(59);
+var wellKnownSymbol = __webpack_require__(53);
+var V8_VERSION = __webpack_require__(55);
+
+var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
+
+// We can't use this feature detection in V8 since it causes
+// deoptimization and serious performance degradation
+// https://github.com/zloirock/core-js/issues/679
+var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION >= 51 || !fails(function () {
+  var array = [];
+  array[IS_CONCAT_SPREADABLE] = false;
+  return array.concat()[0] !== array;
+});
+
+var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('concat');
+
+var isConcatSpreadable = function (O) {
+  if (!isObject(O)) return false;
+  var spreadable = O[IS_CONCAT_SPREADABLE];
+  return spreadable !== undefined ? !!spreadable : isArray(O);
+};
+
+var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
+
+// `Array.prototype.concat` method
+// https://tc39.es/ecma262/#sec-array.prototype.concat
+// with adding support of @@isConcatSpreadable and @@species
+$({ target: 'Array', proto: true, forced: FORCED }, {
+  // eslint-disable-next-line no-unused-vars -- required for `.length`
+  concat: function concat(arg) {
+    var O = toObject(this);
+    var A = arraySpeciesCreate(O, 0);
+    var n = 0;
+    var i, k, length, len, E;
+    for (i = -1, length = arguments.length; i < length; i++) {
+      E = i === -1 ? O : arguments[i];
+      if (isConcatSpreadable(E)) {
+        len = toLength(E.length);
+        if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
+      } else {
+        if (n >= MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        createProperty(A, n++, E);
+      }
+    }
+    A.length = n;
+    return A;
+  }
+});
+
+
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -1483,6 +1551,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_splice_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var core_js_modules_es_array_includes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(60);
 /* harmony import */ var core_js_modules_es_array_includes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_includes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(65);
+/* harmony import */ var core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -1490,18 +1561,17 @@ __webpack_require__.r(__webpack_exports__);
 var URL = 'https://picsum.photos/300/200';
 var IMG = document.getElementById('img');
 var inputVal = document.getElementById("email-input").value; // users created before usersRetrieved is assigned to users, so that
-// emailCheckArr is populated by the locally stored emails
+// emailCheckArr is populated by the locally stored emails.
 
-var users = [];
+var users = []; // This for loop populates the array users with numerically indexed objects.
 
 for (var i = 0; i < 5; i++) {
   users[i] = {
     /*white space used incase somebodies email contains the word email
     followed by a number.*/
     email: "email " + i,
-    url0: "url" + 0,
-    url1: "url" + 1,
-    url2: "url" + 2
+    urlCount: 0,
+    url0: "url" + 0
   };
 }
 
@@ -1553,6 +1623,8 @@ document.getElementById('random-btn').onclick = function () {
 
 document.getElementById('save-btn').onclick = function () {
   if (document.getElementById("email-input").classList.contains("valid")) {
+    // let urlCheck =
+
     /*
     function initialises user object based off of whether they are position
     0 - 4. Takes the input email, assigns it to the object, takes the img url
@@ -1563,7 +1635,9 @@ document.getElementById('save-btn').onclick = function () {
     */
     var saveEmail = function saveEmail(userNumber) {
       users[userNumber].email = inputEmail;
-      users[userNumber].url0 = IMG.src;
+      users[userNumber].url0 = IMG.src; // Creates an empty url ahead of the first url.
+
+      users[userNumber]["url1"] = "url1";
       emailCheckArr.splice(userNumber, 1, users[userNumber].email);
       localStorage.setItem("userStore", JSON.stringify(users));
       console.log(emailCheckArr);
@@ -1575,6 +1649,8 @@ document.getElementById('save-btn').onclick = function () {
       saveEmail(userNumber);
       document.getElementById("email-id-" + userNumber).innerHTML = inputEmail;
       document.getElementById("email-link-" + userNumber).innerHTML = "<img src='" + users[userNumber].url0 + "' />";
+      users["url1"] = "url1";
+      users[userNumber].urlCount = 1;
       $('#delete-' + userNumber).css('display', 'block');
       $('#delete-' + userNumber).parent().css('display', 'flex');
     }; //checks if email already exists in index array
@@ -1584,27 +1660,51 @@ document.getElementById('save-btn').onclick = function () {
     var emailIndex = emailCheckArr.indexOf(inputEmail);
 
     if (emailCheckArr.includes(inputEmail)) {
-      // checks if the image already is stored in the target email address
-      if (users[emailIndex].url0 === IMG.src || users[emailIndex].url1 === IMG.src || users[emailIndex].url2 === IMG.src) {
-        alert("Image is already stored under this email address");
-      }
-      /*
-        checks if a url slot is empty. saves it to the next available slot and
-        refreshes the local storage with the new information.
-      */
-      else if (users[emailIndex].url1 === "url1") {
-          users[emailIndex].url1 = IMG.src;
-          localStorage.setItem("userStore", JSON.stringify(users));
-          alert("Image linked succesfully");
-        } else if (users[emailIndex].url2 === "url2") {
-          users[emailIndex].url2 = IMG.src;
-          localStorage.setItem("userStore", JSON.stringify(users));
-          alert("Image linked succesfully");
-        } else {
-          alert("Sorry, no more photos can be saved to this email address");
-        }
+      var urlCount = users[emailIndex].urlCount;
+      var urlPresent = false;
 
-      console.log(users[emailCheckArr.indexOf(inputEmail)]);
+      if (users[emailIndex].url0 != "url0") {
+        for (var _i = 0; _i < "".concat(urlCount + 1); _i++) {
+          /*
+          this function has been created so each url containing key-value pair
+          of the specified users object can be iterated over. it returns true
+          when the key-value pair fed in, is present in the object.
+          */
+          var checkUrl = function checkUrl(obj, key, value) {
+            return obj.hasOwnProperty(key) && obj[key] === value;
+          }; //preparing the variables to be iterated over and compared.
+
+
+          var urlKey = "url" + _i;
+          var urlVal = IMG.src; // If the exact key-value pair is present, this returns true.
+
+          if (checkUrl(users[emailIndex], "".concat(urlKey), "".concat(urlVal))) {
+            alert("Image is already stored under this email address");
+            return urlPresent = true;
+            break;
+          }
+        }
+        /*
+        This checks whether the url was present already, and if not, adds the
+        new url in the blank key value pair, and adds another blank key value
+        pair ahead of that.
+        */
+
+
+        for (var _i2 = 0; _i2 < "".concat(urlCount + 1); _i2++) {
+          if (urlPresent === true) {
+            break;
+          } else if (eval("users[emailIndex].url".concat(_i2)) === "url".concat(_i2) && urlPresent === false) {
+            var urlEval = eval("users[".concat(emailIndex, "].url").concat(urlCount, " = IMG.src"));
+            console.log(urlEval);
+            users[emailIndex].urlCount = urlCount + 1;
+            users[emailIndex]["url" + (_i2 + 1)] = "url" + (_i2 + 1);
+            console.log(users["url" + _i2]);
+            localStorage.setItem("userStore", JSON.stringify(users));
+            alert("Image linked succesfully");
+          }
+        }
+      }
     } else if (users[0].email === "email 0") {
       makeProfile(0);
       localStorage.setItem("userStore", JSON.stringify(users));
@@ -1626,17 +1726,21 @@ document.getElementById('save-btn').onclick = function () {
   } else {
     alert("Please enter email address to save photo");
   }
+
+  localStorage.setItem("userStore", JSON.stringify(users));
 };
 
 function deleteUser(userNumber) {
   $('#delete-' + userNumber).parent().css('display', 'none');
   document.getElementById("email-id-" + userNumber).innerHTML = '';
   document.getElementById("email-link-" + userNumber).innerHTML = '';
-  users[userNumber].email = "email " + userNumber;
-  users[userNumber].url0 = 'url0';
-  users[userNumber].url1 = 'url1';
-  users[userNumber].url2 = 'url2';
+  users[userNumber] = {
+    email: "email " + userNumber,
+    urlCount: 0,
+    url0: "url0"
+  };
   emailCheckArr[userNumber] = 'email ' + userNumber;
+  console.log(users[userNumber]);
 }
 
 $('#delete-0').click(function () {
@@ -1678,58 +1782,7 @@ $('#delete-4').click(function () {
   } else {
     alert("profile not deleted");
   }
-}); // $('#delete-1').click(function() {
-//  $('#delete-1').parent().css('display', 'none');
-//  document.getElementById("email-id-1").innerHTML = '';
-//  document.getElementById("email-link-1").innerHTML = '';
-//  users[1].email = "email 1";
-//  users[1].url0 = 'url0';
-//  users[1].url1 = 'url1';
-//  users[1].url2 = 'url2';
-//  emailCheckArr[1] = 'email 1';
-//  localStorage.setItem("userStore", JSON.stringify(users));
-//   }
-// );
-//
-// $('#delete-2').click(function() {
-//  $('#delete-2').parent().css('display', 'none');
-//  document.getElementById("email-id-2").innerHTML = '';
-//  document.getElementById("email-link-2").innerHTML = '';
-//  users[2].email = "email 2";
-//  users[2].url0 = 'url0';
-//  users[2].url1 = 'url1';
-//  users[2].url2 = 'url2';
-//  emailCheckArr[2] = 'email 2';
-//  localStorage.setItem("userStore", JSON.stringify(users));
-//   }
-// );
-//
-// $('#delete-3').click(function() {
-//  $('#delete-3').parent().css('display', 'none');
-//  document.getElementById("email-id-3").innerHTML = '';
-//  document.getElementById("email-link-3").innerHTML = '';
-//  users[3].email = "email 3";
-//  users[3].url0 = 'url0';
-//  users[3].url1 = 'url1';
-//  users[3].url2 = 'url2';
-//  emailCheckArr[3] = 'email 3';
-//  localStorage.setItem("userStore", JSON.stringify(users));
-//   }
-// );
-//
-// $('#delete-4').click(function() {
-//  $('#delete-4').parent().css('display', 'none');
-//  document.getElementById("email-id-4").innerHTML = '';
-//  document.getElementById("email-link-4").innerHTML = '';
-//  users[4].email = "email 4";
-//  users[4].url0 = 'url0';
-//  users[4].url1 = 'url1';
-//  users[4].url2 = 'url2';
-//  emailCheckArr[4] = 'email 4';
-//  localStorage.setItem("userStore", JSON.stringify(users));
-//   }
-// );
-// window.addEventListener('beforeunload', (localStorage.setItem("userStore", JSON.stringify(users))));
+});
 }();
 /******/ })()
 ;

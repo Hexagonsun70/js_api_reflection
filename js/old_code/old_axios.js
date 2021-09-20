@@ -3,16 +3,16 @@ let IMG = document.getElementById('img');
 let inputVal = document.getElementById("email-input").value;
 
 // users created before usersRetrieved is assigned to users, so that
-// emailCheckArr is populated by the locally stored emails.
+// emailCheckArr is populated by the locally stored emails
 let users = [];
-// This for loop populates the array users with numerically indexed objects.
 for (var i=0 ; i<5 ; i++) {
     users[i] = {
       /*white space used incase somebodies email contains the word email
       followed by a number.*/
         email: "email " + i,
-        urlCount: 0,
         url0: "url" +0,
+        url1: "url" +1,
+        url2: "url" +2,
     };
 };
 
@@ -64,8 +64,7 @@ document.getElementById('random-btn').onclick = function(){
 document.getElementById('save-btn').onclick = function(){
   if(document.getElementById("email-input").classList.contains("valid")){
     let inputEmail = document.getElementById("email-input").value;
-    let emailIndex = emailCheckArr.indexOf(inputEmail);
-    // let urlCheck =
+    let emailIndex = emailCheckArr.indexOf(inputEmail)
     /*
     function initialises user object based off of whether they are position
     0 - 4. Takes the input email, assigns it to the object, takes the img url
@@ -77,8 +76,6 @@ document.getElementById('save-btn').onclick = function(){
     function saveEmail(userNumber) {
       users[userNumber].email = inputEmail;
       users[userNumber].url0 = IMG.src;
-      // Creates an empty url ahead of the first url.
-      users[userNumber]["url1"] = "url1";
       emailCheckArr.splice(userNumber,1, users[userNumber].email);
       localStorage.setItem("userStore", JSON.stringify(users));
       console.log(emailCheckArr);
@@ -90,56 +87,30 @@ document.getElementById('save-btn').onclick = function(){
       saveEmail(userNumber);
       document.getElementById("email-id-" + userNumber).innerHTML = inputEmail;
       document.getElementById("email-link-" + userNumber).innerHTML = "<img src='"+ users[userNumber].url0 +"' />";
-      users["url1"] = "url1";
-      users[userNumber].urlCount = 1;
       $('#delete-' + userNumber).css('display', 'block');
       $('#delete-' + userNumber).parent().css('display', 'flex');
     }
     //checks if email already exists in index array
     if(emailCheckArr.includes(inputEmail)){
-      let urlCount = users[emailIndex].urlCount;
-      let urlPresent = false;
-      if (users[emailIndex].url0 != "url0") {
-
-        for (let i=0; i <`${urlCount + 1}`; i++) {
-          /*
-          this function has been created so each url containing key-value pair
-          of the specified users object can be iterated over. it returns true
-          when the key-value pair fed in, is present in the object.
-          */
-          function checkUrl(obj,key,value){
-              return obj.hasOwnProperty(key) && obj[key]===value;
-          }
-          //preparing the variables to be iterated over and compared.
-          let urlKey = `url` + i;
-          let urlVal = IMG.src;
-          // If the exact key-value pair is present, this returns true.
-          if (checkUrl(users[emailIndex], `${urlKey}`, `${urlVal}`)) {
-            alert("Image is already stored under this email address");
-            return urlPresent = true;
-            break;
-          }
-        }
-
-        /*
-        This checks whether the url was present already, and if not, adds the
-        new url in the blank key value pair, and adds another blank key value
-        pair ahead of that.
+      // checks if the image already is stored in the target email address
+      if (users[emailIndex].url0 === IMG.src || users[emailIndex].url1 === IMG.src  || users[emailIndex].url2 === IMG.src) {
+        alert("Image is already stored under this email address")
+      } /*
+          checks if a url slot is empty. saves it to the next available slot and
+          refreshes the local storage with the new information.
         */
-        for (let i=0; i <`${urlCount + 1}`; i++) {
-          if (urlPresent === true) {
-            break;
-          } else if (eval(`users[emailIndex].url${i}`) === `url${i}` && urlPresent === false) {
-            let urlEval = eval(`users[${emailIndex}].url${urlCount} = IMG.src`);
-            console.log(urlEval);
-            users[emailIndex].urlCount = urlCount + 1;
-            users[emailIndex]["url" + (i + 1)] = "url" + (i + 1);
-            console.log(users["url" + i]);
-            localStorage.setItem("userStore", JSON.stringify(users));
-            alert("Image linked succesfully");
-          }
-          }
-        }
+      else if (users[emailIndex].url1 === "url1") {
+        users[emailIndex].url1 = IMG.src
+        localStorage.setItem("userStore", JSON.stringify(users));
+        alert("Image linked succesfully");
+      } else if (users[emailIndex].url2 === "url2") {
+        users[emailIndex].url2 = IMG.src
+        localStorage.setItem("userStore", JSON.stringify(users));
+        alert("Image linked succesfully");
+      } else {
+        alert("Sorry, no more photos can be saved to this email address")
+      }
+      console.log(users[emailCheckArr.indexOf(inputEmail)])
 
     } else if(users[0].email === "email 0") {
       makeProfile(0);
@@ -170,20 +141,17 @@ document.getElementById('save-btn').onclick = function(){
  } else {
    alert("Please enter email address to save photo");
  }
-localStorage.setItem("userStore", JSON.stringify(users));
 };
 
 function deleteUser(userNumber) {
   $('#delete-' + userNumber).parent().css('display', 'none');
   document.getElementById("email-id-" + userNumber).innerHTML = '';
   document.getElementById("email-link-" + userNumber).innerHTML = '';
-  users[userNumber] = {
-    email: "email " + userNumber,
-    urlCount: 0,
-    url0: "url0"
-  };
+  users[userNumber].email = "email " + userNumber;
+  users[userNumber].url0 = 'url0';
+  users[userNumber].url1 = 'url1';
+  users[userNumber].url2 = 'url2';
   emailCheckArr[userNumber] = 'email ' + userNumber;
-  console.log(users[userNumber]);
 }
 
 $('#delete-0').click( function() {
@@ -230,3 +198,58 @@ $('#delete-4').click( function() {
     alert("profile not deleted");
   }
 });
+
+
+// $('#delete-1').click(function() {
+//  $('#delete-1').parent().css('display', 'none');
+//  document.getElementById("email-id-1").innerHTML = '';
+//  document.getElementById("email-link-1").innerHTML = '';
+//  users[1].email = "email 1";
+//  users[1].url0 = 'url0';
+//  users[1].url1 = 'url1';
+//  users[1].url2 = 'url2';
+//  emailCheckArr[1] = 'email 1';
+//  localStorage.setItem("userStore", JSON.stringify(users));
+//   }
+// );
+//
+// $('#delete-2').click(function() {
+//  $('#delete-2').parent().css('display', 'none');
+//  document.getElementById("email-id-2").innerHTML = '';
+//  document.getElementById("email-link-2").innerHTML = '';
+//  users[2].email = "email 2";
+//  users[2].url0 = 'url0';
+//  users[2].url1 = 'url1';
+//  users[2].url2 = 'url2';
+//  emailCheckArr[2] = 'email 2';
+//  localStorage.setItem("userStore", JSON.stringify(users));
+//   }
+// );
+//
+// $('#delete-3').click(function() {
+//  $('#delete-3').parent().css('display', 'none');
+//  document.getElementById("email-id-3").innerHTML = '';
+//  document.getElementById("email-link-3").innerHTML = '';
+//  users[3].email = "email 3";
+//  users[3].url0 = 'url0';
+//  users[3].url1 = 'url1';
+//  users[3].url2 = 'url2';
+//  emailCheckArr[3] = 'email 3';
+//  localStorage.setItem("userStore", JSON.stringify(users));
+//   }
+// );
+//
+// $('#delete-4').click(function() {
+//  $('#delete-4').parent().css('display', 'none');
+//  document.getElementById("email-id-4").innerHTML = '';
+//  document.getElementById("email-link-4").innerHTML = '';
+//  users[4].email = "email 4";
+//  users[4].url0 = 'url0';
+//  users[4].url1 = 'url1';
+//  users[4].url2 = 'url2';
+//  emailCheckArr[4] = 'email 4';
+//  localStorage.setItem("userStore", JSON.stringify(users));
+//   }
+// );
+
+// window.addEventListener('beforeunload', (localStorage.setItem("userStore", JSON.stringify(users))));
