@@ -5,7 +5,7 @@ let inputVal = document.getElementById("email-input").value;
 // users created before usersRetrieved is assigned to users, so that
 // emailCheckArr is populated by the locally stored emails
 let users = [];
-for (var i=0; i < 5; i++) {
+for (var i=0 ; i<5 ; i++) {
     users[i] = {
       /*white space used incase somebodies email contains the word email
       followed by a number.*/
@@ -16,30 +16,23 @@ for (var i=0; i < 5; i++) {
     };
 };
 
+console.log(users);
+
 const usersRetrieved = JSON.parse(localStorage.getItem("userStore"));
 Object.assign(users, usersRetrieved);
 
 window.onload = function() {
   Object.assign(users, usersRetrieved);
-  if (! (usersRetrieved[0].url1 === "url1")){
-    document.getElementById("email-id-0").innerHTML = users[0].email;
-    document.getElementById("email-link-0").innerHTML = "<img src='"+ users[0].url1 +"' />";
+  function profileCheck(userNumber) {
+    document.getElementById("email-id-" + userNumber).innerHTML = users[userNumber].email;
+    document.getElementById("email-link-" +userNumber).innerHTML = "<img src='"+ users[userNumber].url1 +"' />";
+    $('#delete-' + userNumber).css('display', 'block');
   }
-  if (! (usersRetrieved[1].url1 === "url1")){
-    document.getElementById("email-id-1").innerHTML = users[1].email;
-    document.getElementById("email-link-1").innerHTML = "<img src='"+ users[1].url1 +"' />";
-  }
-  if (! (usersRetrieved[2].url1 === "url1")){
-    document.getElementById("email-id-2").innerHTML = users[2].email;
-    document.getElementById("email-link-2").innerHTML = "<img src='"+ users[2].url1 +"' />";
-  }
-  if (! (usersRetrieved[3].url1 === "url1")){
-    document.getElementById("email-id-3").innerHTML = users[3].email;
-    document.getElementById("email-link-3").innerHTML = "<img src='"+ users[3].url1 +"' />";
-  }
-  if (! (usersRetrieved[4].url1 === "url1")){
-    document.getElementById("email-id-4").innerHTML = users[4].email;
-    document.getElementById("email-link-4").innerHTML = "<img src='"+ users[4].url1 +"' />";
+
+  for (var i=0 ; i<5 ; i++){
+    if (! (usersRetrieved[i].url1 === "url1")){
+      profileCheck(i);
+    }
   }
 }
 
@@ -68,9 +61,6 @@ document.getElementById('random-btn').onclick = function(){
   axiosImgGet()
 };
 
-
-
-
 document.getElementById('save-btn').onclick = function(){
   if(document.getElementById("email-input").classList.contains("valid")){
     let inputEmail = document.getElementById("email-input").value;
@@ -92,6 +82,14 @@ document.getElementById('save-btn').onclick = function(){
       console.log(users);
       console.log(users[userNumber]);
     }
+
+    function makeProfile(userNumber) {
+      saveEmail(userNumber);
+      document.getElementById("email-id-" + userNumber).innerHTML = inputEmail;
+      document.getElementById("email-link-" + userNumber).innerHTML = "<img src='"+ users[userNumber].url1 +"' />";
+      $('#delete-' + userNumber).css('display', 'block');
+      $('#delete-' + userNumber).parent().css('display', 'flex');
+    }
     //checks if email already exists in index array
     if(emailCheckArr.includes(inputEmail)){
       // checks if the image already is stored in the target email address
@@ -104,49 +102,154 @@ document.getElementById('save-btn').onclick = function(){
       else if (users[emailIndex].url2 === "url2") {
         users[emailIndex].url2 = IMG.src
         localStorage.setItem("userStore", JSON.stringify(users));
+        alert("Image linked succesfully");
       } else if (users[emailIndex].url3 === "url3") {
         users[emailIndex].url3 = IMG.src
         localStorage.setItem("userStore", JSON.stringify(users));
+        alert("Image linked succesfully");
       } else {
         alert("Sorry, no more photos can be saved to this email address")
       }
       console.log(users[emailCheckArr.indexOf(inputEmail)])
 
     } else if(users[0].email === "email 0") {
-      saveEmail(0);
-      // innerHTML can be abused by malicious attack.
-      document.getElementById("email-id-0").innerHTML = inputEmail;
-      document.getElementById("email-link-0").innerHTML = "<img src='"+ users[0].url1 +"' />";
+      makeProfile(0);
+      localStorage.setItem("userStore", JSON.stringify(users));
 
     } else if(users[1].email === "email 1") {
-      saveEmail(1)
-      document.getElementById("email-id-1").innerHTML = inputEmail;
-      document.getElementById("email-link-1").innerHTML = "<img src='"+ users[1].url1 +"' />";
+      makeProfile(1);
+      localStorage.setItem("userStore", JSON.stringify(users));
 
     } else if(users[2].email === "email 2") {
-      saveEmail(2)
-      document.getElementById("email-id-2").innerHTML = inputEmail;
-      document.getElementById("email-link-2").innerHTML = "<img src='"+ users[2].url1 +"' />";
+      makeProfile(2);
+      localStorage.setItem("userStore", JSON.stringify(users));
 
     } else if(users[3].email === "email 3") {
-      saveEmail(3)
-      document.getElementById("email-id-3").innerHTML = inputEmail;
-      document.getElementById("email-link-3").innerHTML = "<img src='"+ users[3].url1 +"' />";
+      makeProfile(3);
+      localStorage.setItem("userStore", JSON.stringify(users));
 
     } else if(users[4].email === "email 4") {
-      saveEmail(4)
-      document.getElementById("email-id-4").innerHTML = inputEmail;
-      document.getElementById("email-link-4").innerHTML = "<img src='"+ users[4].url1 +"' />";
+      makeProfile(4);
+      localStorage.setItem("userStore", JSON.stringify(users));
 
     } else (
       alert("Sorry, only 5 profiles allowed per user, please use a previous email address")
     )
 
  } else if(document.getElementById("email-input").classList.contains("invalid")){
-   alert("Email Address Entered invalid, please try again")
+   alert("Email Address Entered invalid, please try again");
  } else {
-   alert("Please enter email address to save photo")
+   alert("Please enter email address to save photo");
  }
 };
+
+function deleteUser(userNumber) {
+  $('#delete-' + userNumber).parent().css('display', 'none');
+  document.getElementById("email-id-" + userNumber).innerHTML = '';
+  document.getElementById("email-link-" + userNumber).innerHTML = '';
+  users[userNumber].email = "email " + userNumber;
+  users[userNumber].url1 = 'url1';
+  users[userNumber].url2 = 'url2';
+  users[userNumber].url3 = 'url3';
+  emailCheckArr[userNumber] = 'email ' + userNumber;
+}
+
+$('#delete-0').click( function() {
+  if(confirm("Are you sure you want to delete this profile?")) {
+    deleteUser(0);
+    localStorage.setItem("userStore", JSON.stringify(users));
+  } else {
+    alert("profile not deleted");
+  }
+});
+
+$('#delete-1').click( function() {
+  if(confirm("Are you sure you want to delete this profile?")) {
+    deleteUser(1);
+    localStorage.setItem("userStore", JSON.stringify(users));
+  } else {
+    alert("profile not deleted");
+  }
+});
+
+$('#delete-2').click( function() {
+  if(confirm("Are you sure you want to delete this profile?")) {
+    deleteUser(2);
+    localStorage.setItem("userStore", JSON.stringify(users));
+  } else {
+    alert("profile not deleted");
+  }
+});
+
+$('#delete-3').click( function() {
+  if(confirm("Are you sure you want to delete this profile?")) {
+    deleteUser(3);
+    localStorage.setItem("userStore", JSON.stringify(users));
+  } else {
+    alert("profile not deleted");
+  }
+});
+
+$('#delete-4').click( function() {
+  if(confirm("Are you sure you want to delete this profile?")) {
+    deleteUser(4);
+    localStorage.setItem("userStore", JSON.stringify(users));
+  } else {
+    alert("profile not deleted");
+  }
+});
+
+
+// $('#delete-1').click(function() {
+//  $('#delete-1').parent().css('display', 'none');
+//  document.getElementById("email-id-1").innerHTML = '';
+//  document.getElementById("email-link-1").innerHTML = '';
+//  users[1].email = "email 1";
+//  users[1].url1 = 'url1';
+//  users[1].url2 = 'url2';
+//  users[1].url3 = 'url3';
+//  emailCheckArr[1] = 'email 1';
+//  localStorage.setItem("userStore", JSON.stringify(users));
+//   }
+// );
+//
+// $('#delete-2').click(function() {
+//  $('#delete-2').parent().css('display', 'none');
+//  document.getElementById("email-id-2").innerHTML = '';
+//  document.getElementById("email-link-2").innerHTML = '';
+//  users[2].email = "email 2";
+//  users[2].url1 = 'url1';
+//  users[2].url2 = 'url2';
+//  users[2].url3 = 'url3';
+//  emailCheckArr[2] = 'email 2';
+//  localStorage.setItem("userStore", JSON.stringify(users));
+//   }
+// );
+//
+// $('#delete-3').click(function() {
+//  $('#delete-3').parent().css('display', 'none');
+//  document.getElementById("email-id-3").innerHTML = '';
+//  document.getElementById("email-link-3").innerHTML = '';
+//  users[3].email = "email 3";
+//  users[3].url1 = 'url1';
+//  users[3].url2 = 'url2';
+//  users[3].url3 = 'url3';
+//  emailCheckArr[3] = 'email 3';
+//  localStorage.setItem("userStore", JSON.stringify(users));
+//   }
+// );
+//
+// $('#delete-4').click(function() {
+//  $('#delete-4').parent().css('display', 'none');
+//  document.getElementById("email-id-4").innerHTML = '';
+//  document.getElementById("email-link-4").innerHTML = '';
+//  users[4].email = "email 4";
+//  users[4].url1 = 'url1';
+//  users[4].url2 = 'url2';
+//  users[4].url3 = 'url3';
+//  emailCheckArr[4] = 'email 4';
+//  localStorage.setItem("userStore", JSON.stringify(users));
+//   }
+// );
 
 // window.addEventListener('beforeunload', (localStorage.setItem("userStore", JSON.stringify(users))));
