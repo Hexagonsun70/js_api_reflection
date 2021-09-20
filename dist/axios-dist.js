@@ -1499,9 +1499,9 @@ for (var i = 0; i < 5; i++) {
     /*white space used incase somebodies email contains the word email
     followed by a number.*/
     email: "email " + i,
+    url0: "url" + 0,
     url1: "url" + 1,
-    url2: "url" + 2,
-    url3: "url" + 3
+    url2: "url" + 2
   };
 }
 
@@ -1515,12 +1515,12 @@ window.onload = function () {
 
   function profileCheck(userNumber) {
     document.getElementById("email-id-" + userNumber).innerHTML = users[userNumber].email;
-    document.getElementById("email-link-" + userNumber).innerHTML = "<img src='" + users[userNumber].url1 + "' />";
+    document.getElementById("email-link-" + userNumber).innerHTML = "<img src='" + users[userNumber].url0 + "' />";
     $('#delete-' + userNumber).css('display', 'block');
   }
 
   for (var i = 0; i < 5; i++) {
-    if (!(usersRetrieved[i].url1 === "url1")) {
+    if (!(usersRetrieved[i].url0 === "url0")) {
       profileCheck(i);
     }
   }
@@ -1563,7 +1563,7 @@ document.getElementById('save-btn').onclick = function () {
     */
     var saveEmail = function saveEmail(userNumber) {
       users[userNumber].email = inputEmail;
-      users[userNumber].url1 = IMG.src;
+      users[userNumber].url0 = IMG.src;
       emailCheckArr.splice(userNumber, 1, users[userNumber].email);
       localStorage.setItem("userStore", JSON.stringify(users));
       console.log(emailCheckArr);
@@ -1574,7 +1574,7 @@ document.getElementById('save-btn').onclick = function () {
     var makeProfile = function makeProfile(userNumber) {
       saveEmail(userNumber);
       document.getElementById("email-id-" + userNumber).innerHTML = inputEmail;
-      document.getElementById("email-link-" + userNumber).innerHTML = "<img src='" + users[userNumber].url1 + "' />";
+      document.getElementById("email-link-" + userNumber).innerHTML = "<img src='" + users[userNumber].url0 + "' />";
       $('#delete-' + userNumber).css('display', 'block');
       $('#delete-' + userNumber).parent().css('display', 'flex');
     }; //checks if email already exists in index array
@@ -1585,19 +1585,19 @@ document.getElementById('save-btn').onclick = function () {
 
     if (emailCheckArr.includes(inputEmail)) {
       // checks if the image already is stored in the target email address
-      if (users[emailIndex].url1 === IMG.src || users[emailIndex].url2 === IMG.src || users[emailIndex].url3 === IMG.src) {
+      if (users[emailIndex].url0 === IMG.src || users[emailIndex].url1 === IMG.src || users[emailIndex].url2 === IMG.src) {
         alert("Image is already stored under this email address");
       }
       /*
         checks if a url slot is empty. saves it to the next available slot and
         refreshes the local storage with the new information.
       */
-      else if (users[emailIndex].url2 === "url2") {
-          users[emailIndex].url2 = IMG.src;
+      else if (users[emailIndex].url1 === "url1") {
+          users[emailIndex].url1 = IMG.src;
           localStorage.setItem("userStore", JSON.stringify(users));
           alert("Image linked succesfully");
-        } else if (users[emailIndex].url3 === "url3") {
-          users[emailIndex].url3 = IMG.src;
+        } else if (users[emailIndex].url2 === "url2") {
+          users[emailIndex].url2 = IMG.src;
           localStorage.setItem("userStore", JSON.stringify(users));
           alert("Image linked succesfully");
         } else {
@@ -1633,9 +1633,9 @@ function deleteUser(userNumber) {
   document.getElementById("email-id-" + userNumber).innerHTML = '';
   document.getElementById("email-link-" + userNumber).innerHTML = '';
   users[userNumber].email = "email " + userNumber;
+  users[userNumber].url0 = 'url0';
   users[userNumber].url1 = 'url1';
   users[userNumber].url2 = 'url2';
-  users[userNumber].url3 = 'url3';
   emailCheckArr[userNumber] = 'email ' + userNumber;
 }
 
@@ -1683,9 +1683,9 @@ $('#delete-4').click(function () {
 //  document.getElementById("email-id-1").innerHTML = '';
 //  document.getElementById("email-link-1").innerHTML = '';
 //  users[1].email = "email 1";
+//  users[1].url0 = 'url0';
 //  users[1].url1 = 'url1';
 //  users[1].url2 = 'url2';
-//  users[1].url3 = 'url3';
 //  emailCheckArr[1] = 'email 1';
 //  localStorage.setItem("userStore", JSON.stringify(users));
 //   }
@@ -1696,9 +1696,9 @@ $('#delete-4').click(function () {
 //  document.getElementById("email-id-2").innerHTML = '';
 //  document.getElementById("email-link-2").innerHTML = '';
 //  users[2].email = "email 2";
+//  users[2].url0 = 'url0';
 //  users[2].url1 = 'url1';
 //  users[2].url2 = 'url2';
-//  users[2].url3 = 'url3';
 //  emailCheckArr[2] = 'email 2';
 //  localStorage.setItem("userStore", JSON.stringify(users));
 //   }
@@ -1709,9 +1709,9 @@ $('#delete-4').click(function () {
 //  document.getElementById("email-id-3").innerHTML = '';
 //  document.getElementById("email-link-3").innerHTML = '';
 //  users[3].email = "email 3";
+//  users[3].url0 = 'url0';
 //  users[3].url1 = 'url1';
 //  users[3].url2 = 'url2';
-//  users[3].url3 = 'url3';
 //  emailCheckArr[3] = 'email 3';
 //  localStorage.setItem("userStore", JSON.stringify(users));
 //   }
@@ -1722,9 +1722,9 @@ $('#delete-4').click(function () {
 //  document.getElementById("email-id-4").innerHTML = '';
 //  document.getElementById("email-link-4").innerHTML = '';
 //  users[4].email = "email 4";
+//  users[4].url0 = 'url0';
 //  users[4].url1 = 'url1';
 //  users[4].url2 = 'url2';
-//  users[4].url3 = 'url3';
 //  emailCheckArr[4] = 'email 4';
 //  localStorage.setItem("userStore", JSON.stringify(users));
 //   }
